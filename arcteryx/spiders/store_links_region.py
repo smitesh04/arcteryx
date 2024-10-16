@@ -1,6 +1,7 @@
 import scrapy
 from scrapy.cmdline import execute as ex
-from 
+from arcteryx.db_config import DbConfig
+obj = DbConfig()
 
 
 class StoreLinksRegionSpider(scrapy.Spider):
@@ -13,8 +14,9 @@ class StoreLinksRegionSpider(scrapy.Spider):
         for link in region_links:
 
             link = f"https://stores.arcteryx.com{link}"
+            obj.insert_store_links_region_table(link)
 
-        print()
+
 
 
 if __name__ == '__main__':

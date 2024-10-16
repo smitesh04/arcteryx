@@ -12,6 +12,7 @@ class DbConfig():
         self.cur = self.con.cursor(pymysql.cursors.DictCursor)
         self.data_table = 'data'
         self.store_links_table = 'store_links'
+        self.store_links_region_table = 'store_links_region'
 
     def check_table_exists(self, table_name):
         query = f"SHOW TABLES LIKE '{table_name}';"
@@ -44,7 +45,7 @@ class DbConfig():
                   `direction_url` varchar(255) DEFAULT NULL,
                   `pagesave_path` varchar(255) DEFAULT NULL,
                   PRIMARY KEY (`id`),
-                  UNIQUE KEY `store_no` (`store_no`)
+                  UNIQUE KEY `url` (`url`)
                 )
                 '''
 
@@ -90,6 +91,20 @@ class DbConfig():
     def insert_store_links_table(self, link):
         qr = f'''
             insert into {self.store_links_table}(
+                        link
+                        )
+            values (
+                        "{link}"
+            )
+        '''
+        print(qr)
+        try:
+            self.cur.execute(qr)
+            self.con.commit()
+        except Exception as e:print(e)
+    def insert_store_links_region_table(self, link):
+        qr = f'''
+            insert into {self.store_links_region_table}(
                         link
                         )
             values (
